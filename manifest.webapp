@@ -1,0 +1,13 @@
+{
+  "name": "SomaFM Radio Station",
+  "description": "SomaFM is a listener-supported, commercial-free internet-only radio station.",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "Daniel \"MaTachi\" Jonsson",
+    "url": "http://matachi.se"
+  },
+  "default_locale": "en",
+  "icons": {
+    GRUNT_ICONS
+  }
+}

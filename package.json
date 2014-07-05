@@ -1,0 +1,27 @@
+{
+  "name": "somafm-firefox-os-app",
+  "description": "SomaFM Firefox OS app",
+  "version": "0.1.0",
+  "author": {
+    "name": "Daniel \"MaTachi\" Jonsson",
+    "url": "http://matachi.se"
+  },
+  "homepage": "http://matachi.se",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaTachi/somafm-firefox-os-app.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-exec": "^0.4.5",
+    "grunt-text-replace": "^0.3.12",
+    "load-grunt-tasks": "^0.6.0"
+  },
+  "private": true
+}
