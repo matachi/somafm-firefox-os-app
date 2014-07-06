@@ -11,6 +11,7 @@ module.exports = function(grunt) {
     clean: {
       dist: ['dist'],
       non_minified_js: ['dist/js/<%= pkg.name %>.js'],
+      non_minified_css: ['dist/css/*.css', '!dist/css/*.min.css'],
       templates_js: ['dist/js/templates.js'],
     },
 
@@ -55,6 +56,14 @@ module.exports = function(grunt) {
       }
     },
 
+    cssmin: {
+      main: {
+        files: {
+          'dist/css/<%= pkg.name %>.min.css': ['dist/css/*.css', '!dist/css/*.min.css']
+        }
+      }
+    },
+
     copy: {
       manifest: {
         src: 'manifest.webapp',
@@ -64,26 +73,27 @@ module.exports = function(grunt) {
         src: 'index.html',
         dest: 'dist/',
       },
+      building_blocks: {
+        cwd: 'bower_components/building-blocks/',
+        src: [
+          '*/lists.css',
+          '*/headers.css',
+          '*/headers/images/**',
+          '*/drawer.css',
+          '*/drawer/images/**'
+        ],
+        dest: 'dist/css/',
+        rename: function(dest, src) {
+          // Remove `style/` or `style_unstable/` from the beginning of the
+          // src path
+          return dest + src.substr(src.indexOf('/'));
+        },
+        expand: true,
+      },
       css: {
-        files: [
-          {
-            cwd: 'bower_components/building-blocks/',
-            src: [
-              '*/lists.css',
-              '*/headers.css',
-              '*/headers/images/**',
-              '*/drawer.css',
-              '*/drawer/images/**'
-            ],
-            dest: 'dist/style/',
-            rename: function(dest, src) {
-              // Remove `style/` or `style_unstable/` from the beginning of the
-              // src path
-              return dest + src.substr(src.indexOf('/'));
-            },
-            expand: true
-          },
-        ]
+        src: 'css/app.css',
+        dest: 'dist/css/',
+        flatten: true,
       }
     },
 
@@ -164,11 +174,13 @@ module.exports = function(grunt) {
     'replace:manifest_icon_sizes', // Update the manifest with the icon sizes.
   ]);
 
-  grunt.registerTask('minify', ['uglify', 'clean:non_minified_js']);
+  grunt.registerTask('minify_js', ['uglify', 'clean:non_minified_js']);
 
-  grunt.registerTask('compile', ['jshint', 'jst', 'concat', 'clean:templates_js', 'minify']);
+  grunt.registerTask('compile', ['jshint', 'jst', 'concat', 'clean:templates_js', 'minify_js']);
 
   grunt.registerTask('compile:dev', ['jshint', 'jst', 'concat', 'clean:templates_js']);
 
-  grunt.registerTask('default', ['compile', 'copy:html', 'copy:css', 'icons']);
+  grunt.registerTask('minify_css', ['copy:building_blocks', 'copy:css', 'cssmin', 'clean:non_minified_css']);
+
+  grunt.registerTask('default', ['compile', 'copy:html', 'minify_css', 'icons']);
 };
