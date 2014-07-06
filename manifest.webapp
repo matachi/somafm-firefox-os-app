@@ -9,5 +9,9 @@
   "default_locale": "en",
   "icons": {
     GRUNT_ICONS
+  },
+  "type" : "privileged",
+  "permissions": {
+    "systemXHR": {}
   }
 }

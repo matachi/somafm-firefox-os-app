@@ -3,10 +3,12 @@ var app = app || {};
 (function() {
   'use strict';
 
-  app.Station = Backbone.Model.extend({
+  app.Channel = Backbone.Model.extend({
     defaults: {
-      title: 'Station name',
+      id: '',
+      title: 'Channel name',
       description: '',
+      image: '',
       dj: ''
     }
   });
