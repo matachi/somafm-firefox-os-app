@@ -91,6 +91,7 @@ module.exports = function(grunt) {
         expand: true,
       },
       css: {
+        expand: true,
         src: 'css/app.css',
         dest: 'dist/css/',
         flatten: true,
