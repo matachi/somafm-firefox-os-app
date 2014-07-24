@@ -9,7 +9,7 @@ Install npm, Grunt and Bower on a Debian based system (Ubuntu for example):
 
     $ sudo apt-get install nodejs
     $ sudo npm install -g bower grunt-cli
-    $ sudo chown `whoami`:`whoami` ~/.npm ~/tmp
+    $ sudo chown -R `whoami`:`whoami` ~/.npm ~/tmp
 
 To export the SVG icon into PNG images Inkscape is also required to be
 installed:
