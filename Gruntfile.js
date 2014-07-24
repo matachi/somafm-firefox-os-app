@@ -1,37 +1,49 @@
+'use strict';
+
 module.exports = function(grunt) {
-  'use strict';
 
   // The suggested icon sizes on
   // https://developer.mozilla.org/en-US/Apps/Build/Manifest#icons
   var ICON_SIZES = [16, 32, 48, 60, 64, 90, 120, 128, 256];
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
 
     clean: {
-      dist: ['dist'],
-      non_minified_js: ['dist/js/<%= pkg.name %>.js'],
-      non_minified_css: ['dist/css/*.css', '!dist/css/*.min.css'],
-      templates_js: ['dist/js/templates.js'],
+      prod: [
+        'dist/js/script.js',
+        'dist/js/templates.js',
+        'dist/css/*.css',
+        '!dist/css/*.min.css',
+      ],
     },
 
     jshint: {
       options: {
-        extensions: '.js'
+        jshintrc: '.jshintrc',
       },
-      all: ['Gruntfile.js', 'js/**/*.js']
+      all: [
+        'Gruntfile.js',
+        'src/js/**/*.js',
+      ],
     },
 
     jst: {
-      compile: {
+      all: {
+        options: {
+          processName: function(filepath) {
+            return filepath.substring(filepath.indexOf('/') + 1);
+          },
+        },
         files: {
-          'dist/js/templates.js': ['js/templates/*.html']
-        }
-      }
+          'dist/js/templates.js': ['src/js/templates/*.html'],
+        },
+      },
     },
 
     concat: {
-      main: {
+      all: {
         src: [
           'bower_components/jquery/dist/jquery.js',
           'bower_components/jquery-xml2json/src/xml2json.js',
@@ -39,41 +51,45 @@ module.exports = function(grunt) {
           'bower_components/backbone/backbone.js',
           'bower_components/backbone.localstorage/backbone.localStorage.js',
           'dist/js/templates.js',
-          'js/models/channel.js',
-          'js/collections/channels.js',
-          'js/views/channel-view.js',
-          'js/views/app-view.js',
-          'js/app.js',
+          'src/js/models/channel.js',
+          'src/js/collections/channels.js',
+          'src/js/views/channel-view.js',
+          'src/js/views/app-view.js',
+          'src/js/app.js',
         ],
-        dest: 'dist/js/<%= pkg.name %>.min.js'
-      }
+        dest: 'dist/js/script.min.js',
+      },
     },
 
     uglify: {
-      main: {
-        src: '<%= concat.main.dest %>',
-        dest: '<%= concat.main.dest %>'
-      }
+      prod: {
+        src: '<%= concat.all.dest %>',
+        dest: '<%= concat.all.dest %>',
+      },
     },
 
     cssmin: {
-      main: {
+      all: {
         files: {
-          'dist/css/<%= pkg.name %>.min.css': ['dist/css/*.css', '!dist/css/*.min.css']
-        }
-      }
+          'dist/css/style.min.css': ['dist/css/*.css', '!dist/css/*.min.css'],
+        },
+      },
     },
 
     copy: {
       manifest: {
-        src: 'manifest.webapp',
+        expand: true,
+        src: 'src/manifest.webapp',
         dest: 'dist/',
+        flatten: true,
       },
       html: {
-        src: 'index.html',
+        expand: true,
+        src: 'src/index.html',
         dest: 'dist/',
+        flatten: true,
       },
-      building_blocks: {
+      buildingBlocks: {
         cwd: 'bower_components/building-blocks/',
         src: [
           '*/lists.css',
@@ -92,14 +108,14 @@ module.exports = function(grunt) {
       },
       css: {
         expand: true,
-        src: 'css/app.css',
+        src: 'src/css/app.css',
         dest: 'dist/css/',
         flatten: true,
       }
     },
 
     replace: {
-      manifest_icon_sizes: {
+      manifestIconSizes: {
         src: ['dist/manifest.webapp'],
         overwrite: true,
         replacements: [{
@@ -111,7 +127,7 @@ module.exports = function(grunt) {
               // icon file:
               //   "128": "/icons/icon-128.png"
               call += '"'+element+'": "/icons/icon-'+element+'.png"';
-              if (index != array.length - 1) {
+              if (index !== array.length - 1) {
                 call += ',\n    ';
               }
             });
@@ -132,14 +148,14 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      export_icons: {
+      exportIcons: {
         cmd: function() {
           var call = 'mkdir -p dist/icons/ && ';
           ICON_SIZES.forEach(function(element, index, array) {
             // For each icon size, construct an Inkscape call looking like:
             //   'inkscape -e dist/icons/icon-60.png -C -w 60 -h 60 icons/icon.svg'
-            call += 'inkscape -e dist/icons/icon-'+element+'.png -C -w '+element+' -h '+element+' icons/icon.svg';
-            if (index != array.length - 1) {
+            call += 'inkscape -e dist/icons/icon-'+element+'.png -C -w '+element+' -h '+element+' src/icons/icon.svg';
+            if (index !== array.length - 1) {
               call += ' && ';
             }
           });
@@ -149,39 +165,92 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      options: {
-        livereload: true
+      js: {
+        files: [
+          'Gruntfile.js',
+          'src/js/**',
+        ],
+        tasks: [
+          'jshint',
+          'jst',
+          'concat',
+        ],
+      },
+      css: {
+        files: 'src/css/app.css',
+        tasks: [
+          'copy:css',
+          'cssmin',
+        ],
       },
       manifest: {
         files: 'manifest.webapp',
-        tasks: ['icons']
-      },
-      js: {
-        files: ['Gruntfile.js', 'js/**'],
-        tasks: 'compile:dev'
+        tasks: [
+          'copy:manifest',
+          'replace:manifestIconSizes',
+        ],
       },
       html: {
-        files: 'index.html',
-        tasks: ['copy:html', 'replace:livereload']
+        files: 'src/index.html',
+        tasks: [
+          'copy:html',
+          'replace:livereload',
+        ],
       },
+      livereload: {
+        options: {
+          livereload: true,
+        },
+        files: [
+          'dist/js/script.min.css',
+          'dist/css/style.min.css',
+          'dist/manifest.webapp',
+          'dist/*.html',
+        ],
+      }
     },
   });
 
   require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('icons', 'Export app icons.', [
-    'exec:export_icons', // Create the app icons in `dist/icons/`.
+    'exec:exportIcons', // Create the app icons in `dist/icons/`.
     'copy:manifest',  // Copy the manifest file.
-    'replace:manifest_icon_sizes', // Update the manifest with the icon sizes.
+    'replace:manifestIconSizes', // Update the manifest with the icon sizes.
   ]);
 
-  grunt.registerTask('minify_js', ['uglify', 'clean:non_minified_js']);
+  grunt.registerTask('buildCss', [
+    'copy:buildingBlocks',
+    'copy:css',
+    'cssmin',
+  ]);
 
-  grunt.registerTask('compile', ['jshint', 'jst', 'concat', 'clean:templates_js', 'minify_js']);
+  grunt.registerTask('default', [
+    'jshint',
+    'jst',
+    'concat',
 
-  grunt.registerTask('compile:dev', ['jshint', 'jst', 'concat', 'clean:templates_js']);
+    'copy:html',
 
-  grunt.registerTask('minify_css', ['copy:building_blocks', 'copy:css', 'cssmin', 'clean:non_minified_css']);
+    'buildCss',
 
-  grunt.registerTask('default', ['compile', 'copy:html', 'minify_css', 'icons']);
+    'icons',
+
+    'watch',
+  ]);
+
+  grunt.registerTask('build', [
+    'jshint',
+    'jst',
+    'concat',
+    'uglify',
+
+    'copy:html',
+
+    'buildCss',
+
+    'icons',
+
+    'clean',
+  ]);
 };

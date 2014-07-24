@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function($) {
+(function($) { // jshint ignore:line
   'use strict';
 
   app.ChannelView = Backbone.View.extend({
