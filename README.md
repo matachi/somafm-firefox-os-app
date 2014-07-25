@@ -35,7 +35,7 @@ continuous building:
     $ grunt build
 
 This does the same as `grunt`, but with more minimization, cleaning and without
-the conitinious building.
+the continuous building.
 
 ## Run the app
 
