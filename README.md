@@ -69,6 +69,12 @@ The app depends on the following JavaScript libraries:
   licensed under the [MIT
   License](http://documentup.com/jeromegn/backbone.localStorage#license).
 
+And the following library for the layout (CSS, and icons):
+
+* [Building Blocks](http://buildingfirefoxos.com/building-blocks) licensed
+  under the [Apache License, version
+  2.0](https://github.com/buildingfirefoxos/Building-Blocks/blob/gh-pages/LICENSE).
+
 The following font is used for the app's icon:
 
 * [OCR-A](http://sourceforge.net/projects/ocr-a-font/) licensed as public
