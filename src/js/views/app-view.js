@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function($) {
+(function() {
   'use strict';
 
   app.AppView = Backbone.View.extend({
@@ -19,52 +19,28 @@ var app = app || {};
         that.$('#channels-view').addClass('hidden');
         that.$('#about-view').removeClass('hidden');
       });
+      this.$('.js-reload-channels').on('click', function() {
+        _.invoke(app.channels.toArray(), 'destroy');
+        app.channels.update();
+      });
 
       this.$channelList = this.$el.find('#channel-list');
 
-      this.listenTo(app.channels, 'add', this.addOne);
+      this.listenTo(app.channels, 'add', this.addOneSorted);
       this.listenTo(app.channels, 'reset', this.addAll);
 
       this.playbackModel = new app.Playback();
       var playbackView = new app.PlaybackView({model: this.playbackModel});
       this.$el.find('#playback').append(playbackView.render().el);
 
-      _.invoke(app.channels.toArray(), 'destroy');
-
-      $.ajaxSetup({
-        xhr: function() {
-          return new window.XMLHttpRequest({mozSystem: true});
-        }
-      });
-
-      $.ajax({
-        url: 'http://somafm.com/channels.xml',
-        dataType: 'xml',
-        success: function(response) {
-          console.log('Channel list received');
-          var json = $.xml2json(response);
-          json['#document'].channels.channel.forEach(function(element) {
-            var id = element.$.id;
-            var title = element.title;
-            var description = element.description;
-            var image = element.image;
-            var dj = element.dj;
-            app.channels.create({
-              id: id,
-              title: title,
-              description: description,
-              image: image,
-              dj: dj
-            });
-          });
-        }, error: function(jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
-        }
-      });
+      String.prototype.compareTo = function(other) {
+        return this.toLowerCase() > other.toLowerCase();
+      };
 
       app.channels.fetch({reset: true});
+      if (app.channels.length === 0) {
+        app.channels.update();
+      }
     },
 
     render: function() {
@@ -80,9 +56,26 @@ var app = app || {};
       this.$channelList.append(view.render().el);
     },
 
+    addOneSorted: function(channel) {
+      var view = new app.ChannelView({
+        model: channel,
+        playbackModel: this.playbackModel
+      });
+      var children = this.$channelList.children();
+      for (var i = 0; i < children.size(); ++i) {
+        var $child = $(children.get(i));
+        var title = $child.find('.js-title')[0].textContent.trim();
+        if (!channel.get('title').compareTo(title)) {
+          $child.before(view.render().el);
+          return;
+        }
+      }
+      this.$channelList.append(view.render().el);
+    },
+
     addAll: function() {
       app.channels.each(this.addOne, this);
     },
 
   });
-})(jQuery);
+})();

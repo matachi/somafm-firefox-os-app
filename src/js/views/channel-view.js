@@ -15,6 +15,10 @@ var app = app || {};
 
     initialize: function(options) {
       this.playbackModel = options.playbackModel;
+      var that = this;
+      this.listenTo(this.model, 'destroy', function() {
+        that.remove();
+      });
     },
 
     render: function() {
