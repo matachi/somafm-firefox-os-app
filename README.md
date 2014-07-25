@@ -52,3 +52,24 @@ API](http://somafm.com/channels.xml). This could be fixed if SomaFM were to
 enable
 [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 
+## Credits
+
+The app depends on the following JavaScript libraries:
+
+* [jQuery](http://jquery.com/) licensed under the [MIT
+  License](https://jquery.org/license/).
+* [jQuery-xml2json](https://github.com/sergeyt/jQuery-xml2json) licensed under
+  the [MIT
+  License](https://github.com/sergeyt/jQuery-xml2json/blob/master/package.json).
+* [Underscore.js](http://underscorejs.org/) licensed under the [MIT
+  License](https://github.com/jashkenas/underscore/blob/master/LICENSE).
+* [Backbone.js](http://backbonejs.org/) licensed under the [MIT
+  License](https://github.com/jashkenas/backbone/blob/master/LICENSE).
+* [Backbone.localStorage](http://documentup.com/jeromegn/backbone.localStorage)
+  licensed under the [MIT
+  License](http://documentup.com/jeromegn/backbone.localStorage#license).
+
+The following font is used for the app's icon:
+
+* [OCR-A](http://sourceforge.net/projects/ocr-a-font/) licensed as public
+  domain.
