@@ -7,7 +7,7 @@ var app = app || {};
     model: app.Channel,
     localStorage: new Backbone.LocalStorage('channels-backbone'),
     comparator: function(a, b) {
-      return a.attributes.title.charAt(0).toLowerCase().charCodeAt(0) - b.attributes.title.charAt(0).toLowerCase().charCodeAt(0);
+      return a.get('title').toLowerCase() > b.get('title').toLowerCase();
     },
   });
 
