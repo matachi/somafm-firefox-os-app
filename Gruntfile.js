@@ -135,16 +135,6 @@ module.exports = function(grunt) {
           }
         }]
       },
-      livereload: {
-        src: 'dist/index.html',
-        overwrite: true,
-        replacements: [{
-          from: '</body>',
-          to: function() {
-            return '<script src="http://localhost:35729/livereload.js"></script></body>';
-          }
-        }]
-      },
     },
 
     exec: {
@@ -194,20 +184,8 @@ module.exports = function(grunt) {
         files: 'src/index.html',
         tasks: [
           'copy:html',
-          'replace:livereload',
         ],
       },
-      livereload: {
-        options: {
-          livereload: true,
-        },
-        files: [
-          'dist/js/script.min.css',
-          'dist/css/style.min.css',
-          'dist/manifest.webapp',
-          'dist/*.html',
-        ],
-      }
     },
   });
 
