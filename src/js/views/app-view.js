@@ -10,6 +10,16 @@ var app = app || {};
     initialize: function() {
       console.log('Initialize AppView');
 
+      var that = this;
+      this.$('.js-show-channels').on('click', function() {
+        that.$('#channels-view').removeClass('hidden');
+        that.$('#about-view').addClass('hidden');
+      });
+      this.$('.js-show-about').on('click', function() {
+        that.$('#channels-view').addClass('hidden');
+        that.$('#about-view').removeClass('hidden');
+      });
+
       this.$channelList = this.$el.find('#channel-list');
 
       this.listenTo(app.channels, 'add', this.addOne);

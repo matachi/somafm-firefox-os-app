@@ -38,3 +38,15 @@ div[role="toolbar"] .text {
   line-height: 40px;
   padding-right: 5px;
 }
+
+.hidden {
+  display: none;
+}
+
+#about-view {
+  font-size: 1.5rem;
+}
+
+#about-view p {
+  margin: 15px 19px 15px 19px;
+}

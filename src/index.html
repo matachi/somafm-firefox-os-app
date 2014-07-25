@@ -14,8 +14,9 @@
     </header>
     <nav>
       <ul>
-        <li><a href="#">Channels</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#" class="js-show-channels">Channels</a></li>
+        <li><a href="#" class="js-reload-channels">Reload channels list</a></li>
+        <li><a href="#" class="js-show-about">About</a></li>
       </ul>
     </nav>
   </section>
@@ -28,17 +29,27 @@
     </header>
     <div role="main">
 
-      <section data-type="list">
-        <header>Channels</header>
-        <ul id="channel-list">
-        </ul>
+      <section id="channels-view">
+        <section data-type="list">
+          <header>Channels</header>
+          <ul id="channel-list">
+          </ul>
+        </section>
+
+        <div role="toolbar" id="playback">
+        </div>
       </section>
 
-      <div role="toolbar" id="playback">
-      </div>
+      <section id="about-view" class="hidden">
+        <p>This is an unofficial SomaFM app and its author has no relation with <a href="http://www.somafm.com" target="_blank">SomaFM</a>. SomaFM is a listener-supported, commercial-free internet-only radio station. If you want to support SomaFM with a donation, visit <a href="http://somafm.com/listen/" target="_blank">somafm.com/listen</a>.</p>
+        <p>Author: Daniel "MaTachi" Jonsson, <a href="http://matachi.se" target="_blank">matachi.se</a></p>
+        <p>License: MIT License</p>
+        <p>Source code repository: <a href="https://github.com/MaTachi/somafm-firefox-os-app" target="_blank">github.com/MaTachi/somafm-firefox-os-app</a></p>
+      </section>
 
     </div>
   </section>
+
 
   <script src="js/script.min.js"></script>
 </body>
