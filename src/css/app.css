@@ -24,7 +24,17 @@ div[role="main"] {
   overflow: hidden;
 }
 
-div[role="main"] > * {
+div[role="main"] > *:first-child {
   overflow: auto;
   height: 100%;
+}
+
+#channel-list > *:last-child {
+  margin-bottom: 40px;
+}
+
+div[role="toolbar"] .text {
+  color: #efefef;
+  line-height: 40px;
+  padding-right: 5px;
 }

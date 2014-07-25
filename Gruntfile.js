@@ -52,8 +52,10 @@ module.exports = function(grunt) {
           'bower_components/backbone.localstorage/backbone.localStorage.js',
           'dist/js/templates.js',
           'src/js/models/channel.js',
+          'src/js/models/playback.js',
           'src/js/collections/channels.js',
           'src/js/views/channel-view.js',
+          'src/js/views/playback-view.js',
           'src/js/views/app-view.js',
           'src/js/app.js',
         ],
@@ -96,13 +98,18 @@ module.exports = function(grunt) {
           '*/headers.css',
           '*/headers/images/**',
           '*/drawer.css',
-          '*/drawer/images/**'
+          '*/drawer/images/**',
+          '*/toolbars.css',
+          '**/media_icons.css',
+          '**/media_icons.png',
         ],
         dest: 'dist/css/',
         rename: function(dest, src) {
-          // Remove `style/` or `style_unstable/` from the beginning of the
-          // src path
-          return dest + src.substr(src.indexOf('/'));
+          // Remove `styles/, `styles_unstable/` or `icons/styles/` from the
+          // beginning of the src path
+          var stylesStarts = src.indexOf('styles');
+          var srcWithoutStyles = src.substr(src.indexOf('/', stylesStarts) + 1);
+          return dest + srcWithoutStyles;
         },
         expand: true,
       },

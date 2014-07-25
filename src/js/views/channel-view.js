@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function($) { // jshint ignore:line
+(function() {
   'use strict';
 
   app.ChannelView = Backbone.View.extend({
@@ -13,14 +13,18 @@ var app = app || {};
       'click': 'play',
     },
 
+    initialize: function(options) {
+      this.playbackModel = options.playbackModel;
+    },
+
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
 
     play: function() {
-      this.trigger('play', this.model.id);
+      this.playbackModel.play(this.model);
     },
 
   });
-})(jQuery);
+})();

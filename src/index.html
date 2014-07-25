@@ -6,7 +6,7 @@
   <title>SomaFM Radio Station</title>
   <link rel="stylesheet" href="css/style.min.css">
 </head>
-<body role="application">
+<body role="application" id="app">
 
   <section data-type="sidebar">
     <header>
@@ -28,16 +28,17 @@
     </header>
     <div role="main">
 
-      <section data-type="list" id="app">
+      <section data-type="list">
         <header>Channels</header>
         <ul id="channel-list">
         </ul>
       </section>
 
+      <div role="toolbar" id="playback">
+      </div>
+
     </div>
   </section>
-
-  <audio id="audio-player"></audio>
 
   <script src="js/script.min.js"></script>
 </body>

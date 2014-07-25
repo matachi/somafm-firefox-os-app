@@ -10,12 +10,14 @@ var app = app || {};
     initialize: function() {
       console.log('Initialize AppView');
 
-      this.$channelList = $('#channel-list');
-
-      this.audioPlayer = $('#audio-player')[0];
+      this.$channelList = this.$el.find('#channel-list');
 
       this.listenTo(app.channels, 'add', this.addOne);
       this.listenTo(app.channels, 'reset', this.addAll);
+
+      this.playbackModel = new app.Playback();
+      var playbackView = new app.PlaybackView({model: this.playbackModel});
+      this.$el.find('#playback').append(playbackView.render().el);
 
       _.invoke(app.channels.toArray(), 'destroy');
 
@@ -61,18 +63,15 @@ var app = app || {};
     },
 
     addOne: function(channel) {
-      var view = new app.ChannelView({model: channel});
-      this.listenTo(view, 'play', this.play);
+      var view = new app.ChannelView({
+        model: channel,
+        playbackModel: this.playbackModel
+      });
       this.$channelList.append(view.render().el);
     },
 
     addAll: function() {
       app.channels.each(this.addOne, this);
-    },
-
-    play: function(channelId) {
-      this.audioPlayer.src = 'http://ice.somafm.com/' + channelId;
-      this.audioPlayer.play();
     },
 
   });
