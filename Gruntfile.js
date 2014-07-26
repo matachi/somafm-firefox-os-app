@@ -181,7 +181,7 @@ module.exports = function(grunt) {
         ],
       },
       manifest: {
-        files: 'manifest.webapp',
+        files: 'src/manifest.webapp',
         tasks: [
           'copy:manifest',
           'replace:manifestIconSizes',
