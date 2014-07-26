@@ -16,6 +16,7 @@ module.exports = function(grunt) {
         'dist/js/templates.js',
         'dist/css/*.css',
         '!dist/css/*.min.css',
+        'dist/css/lists.less',
       ],
     },
 
@@ -70,10 +71,25 @@ module.exports = function(grunt) {
       },
     },
 
+    less: {
+      all: {
+        files: {
+          'dist/css/app.css': ['src/less/app.less'],
+        },
+      },
+    },
+
     cssmin: {
       all: {
         files: {
-          'dist/css/style.min.css': ['dist/css/*.css', '!dist/css/*.min.css'],
+          'dist/css/style.min.css': [
+            'dist/css/lists.css',
+            'dist/css/headers.css',
+            'dist/css/drawer.css',
+            'dist/css/toolbars.css',
+            'dist/css/media_icons.css',
+            'dist/css/app.css',
+          ],
         },
       },
     },
@@ -113,12 +129,14 @@ module.exports = function(grunt) {
         },
         expand: true,
       },
-      css: {
-        expand: true,
-        src: 'src/css/app.css',
-        dest: 'dist/css/',
-        flatten: true,
-      }
+      // Needs to make a copy of lists.css named lists.less so it can be
+      // referenced by app.less to extend the lists header to also use its
+      // style for the About header 
+      // http://lesscss.org/features/#import-options-reference-example
+      buildingBlocksLess: {
+        src: 'dist/css/lists.css',
+        dest: 'dist/css/lists.less',
+      },
     },
 
     replace: {
@@ -173,10 +191,10 @@ module.exports = function(grunt) {
           'concat',
         ],
       },
-      css: {
-        files: 'src/css/app.css',
+      less: {
+        files: 'src/less/app.less',
         tasks: [
-          'copy:css',
+          'less',
           'cssmin',
         ],
       },
@@ -204,12 +222,6 @@ module.exports = function(grunt) {
     'replace:manifestIconSizes', // Update the manifest with the icon sizes.
   ]);
 
-  grunt.registerTask('buildCss', [
-    'copy:buildingBlocks',
-    'copy:css',
-    'cssmin',
-  ]);
-
   grunt.registerTask('default', [
     'jshint',
     'jst',
@@ -217,7 +229,10 @@ module.exports = function(grunt) {
 
     'copy:html',
 
-    'buildCss',
+    'copy:buildingBlocks',
+    'copy:buildingBlocksLess',
+    'less',
+    'cssmin',
 
     'icons',
 
@@ -232,7 +247,10 @@ module.exports = function(grunt) {
 
     'copy:html',
 
-    'buildCss',
+    'copy:buildingBlocks',
+    'copy:buildingBlocksLess',
+    'less',
+    'cssmin',
 
     'icons',
 
