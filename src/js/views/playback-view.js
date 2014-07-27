@@ -23,6 +23,15 @@ var app = app || {};
       this.$playPauseButton = this.$('.js-play-pause-button');
       this.$title = this.$('.js-title');
       this.audioPlayer = this.$('#audio-player')[0];
+      var that = this;
+      this.audioPlayer.addEventListener('error', function() {
+        if (this.error.code === this.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+          that.trigger(
+            'src_not_supported',
+            'The media source is not supported by your device.'
+          );
+        }
+      });
       return this;
     },
 

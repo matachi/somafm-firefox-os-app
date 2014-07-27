@@ -90,6 +90,7 @@ module.exports = function(grunt) {
             'dist/css/media_icons.css',
             'dist/css/progress_activity.css',
             'dist/css/buttons.css',
+            'dist/css/status.css',
             'dist/css/app.css',
           ],
         },
@@ -124,6 +125,8 @@ module.exports = function(grunt) {
           '*/progress_activity/**',
           '*/buttons.css',
           '*/buttons/**',
+          '*/status.css',
+          '*/status/**',
         ],
         dest: 'dist/css/',
         rename: function(dest, src) {

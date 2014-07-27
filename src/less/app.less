@@ -76,3 +76,14 @@ div[role="toolbar"] .text {
     margin: 10px 0 15px;
   }
 }
+
+section[role="status"] {
+  opacity: 0;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+  visibility: hidden;
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+}

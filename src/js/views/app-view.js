@@ -33,6 +33,7 @@ var app = app || {};
 
       this.playbackModel = new app.Playback();
       var playbackView = new app.PlaybackView({model: this.playbackModel});
+      playbackView.on('src_not_supported', this.showStatusMessage.bind(this));
       this.$el.find('#playback').append(playbackView.render().el);
 
       String.prototype.compareTo = function(other) {
@@ -73,6 +74,15 @@ var app = app || {};
       if (app.channels.length === 0) {
         app.channels.update();
       }
+    },
+
+    showStatusMessage: function(message) {
+      var $s = $('section[role$="status"]');
+      $s.find('p').html(message);
+      $s.addClass('visible');
+      setTimeout(function() {
+        $s.removeClass('visible');
+      }, 2000);
     },
 
     addOne: function(channel) {
