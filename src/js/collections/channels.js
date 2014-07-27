@@ -44,7 +44,8 @@ var app = app || {};
           console.log(jqXHR);
           console.log(textStatus);
           console.log(errorThrown);
-        }
+          this.trigger('fail');
+        }.bind(this),
       });
     },
 

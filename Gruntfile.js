@@ -88,6 +88,8 @@ module.exports = function(grunt) {
             'dist/css/drawer.css',
             'dist/css/toolbars.css',
             'dist/css/media_icons.css',
+            'dist/css/progress_activity.css',
+            'dist/css/buttons.css',
             'dist/css/app.css',
           ],
         },
@@ -118,12 +120,16 @@ module.exports = function(grunt) {
           '*/toolbars.css',
           '**/media_icons.css',
           '**/media_icons.png',
+          '*/progress_activity.css',
+          '*/progress_activity/**',
+          '*/buttons.css',
+          '*/buttons/**',
         ],
         dest: 'dist/css/',
         rename: function(dest, src) {
-          // Remove `styles/, `styles_unstable/` or `icons/styles/` from the
+          // Remove `style/, `style_unstable/` or `icons/styles/` from the
           // beginning of the src path
-          var stylesStarts = src.indexOf('styles');
+          var stylesStarts = src.indexOf('style');
           var srcWithoutStyles = src.substr(src.indexOf('/', stylesStarts) + 1);
           return dest + srcWithoutStyles;
         },
