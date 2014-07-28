@@ -4,7 +4,8 @@ module.exports = function(grunt) {
 
   // The suggested icon sizes on
   // https://developer.mozilla.org/en-US/Apps/Build/Manifest#icons
-  var ICON_SIZES = [16, 32, 48, 60, 64, 90, 120, 128, 256];
+  // https://developer.mozilla.org/en-US/Marketplace/Publishing/Submission_checklist#For_all_apps_(optional)
+  var ICON_SIZES = [32, 60, 90, 120, 128, 256];
 
   grunt.initConfig({
 
