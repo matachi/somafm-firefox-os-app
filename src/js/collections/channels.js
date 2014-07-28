@@ -13,16 +13,18 @@ var app = app || {};
       return a.get('title').toLowerCase() > b.get('title').toLowerCase();
     },
 
+    /**
+     * Update the collection with the channels from SomaFM's API.
+     */
     update: function() {
-      $.ajaxSetup({
-        xhr: function() {
-          return new window.XMLHttpRequest({mozSystem: true});
-        }
-      });
-
       $.ajax({
         url: 'http://somafm.com/channels.xml',
         dataType: 'xml',
+        // Do a cross-origin XHR
+        // http://stackoverflow.com/questions/13873025/firefox-os-packaged-apps-and-xmlhttprequests
+        xhr: function() {
+          return new window.XMLHttpRequest({mozSystem: true});
+        },
         success: function(response) {
           console.log('Channel list retrieved');
           var json = $.xml2json(response);
