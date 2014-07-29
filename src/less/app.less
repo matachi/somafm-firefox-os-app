@@ -1,0 +1,89 @@
+@import (reference) 'dist/css/lists.less';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  background-color: #fff;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Fira Sans', 'DejaVu Sans', 'DroidSans', 'FreeSans', 'Open Sans', 'Arial', sans-serif;
+}
+
+body {
+  background: none;
+}
+
+section[role="region"] {
+  height: 100%;
+  line-height: 1em;
+  font-size: 2.2rem;
+}
+
+div[role="main"] {
+  background: #fff;
+  height: calc(~"100% - 5rem");
+  overflow: hidden;
+  & > *:first-child {
+    overflow: auto;
+    height: 100%;
+  }
+}
+
+#channel-list {
+  & > *:last-child {
+    margin-bottom: 40px;
+  }
+  li {
+    clear: both;
+    height: inherit;
+    &.message {
+      height: 200px;
+      margin: 50px auto 0;
+      text-align: center;
+    }
+    a {
+      height: inherit;
+      padding-bottom: 0.75rem;
+      aside {
+        margin-top: 1rem;
+      }
+      .description {
+        overflow: hidden;
+        white-space: normal;
+      }
+    }
+  }
+}
+
+div[role="toolbar"] .text {
+  color: #fff;
+  line-height: 40px;
+  padding-right: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+#about-view {
+  font-size: 1.5rem;
+  padding: 0 1.5rem;
+  header {
+    &:extend([data-type="list"] header);
+  }
+  p {
+    margin: 10px 0 15px;
+  }
+}
+
+section[role="status"] {
+  opacity: 0;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+  visibility: hidden;
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+}

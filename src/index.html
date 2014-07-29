@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>SomaFM</title>
+  <link rel="stylesheet" href="css/style.min.css">
+</head>
+<body role="application" id="app">
+
+  <section data-type="sidebar">
+    <header>
+      <h1>Menu</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="#" class="js-show-channels">Channels</a></li>
+        <li><a href="#" class="js-reload-channels">Reload channels list</a></li>
+        <li><a href="#" class="js-show-about">About</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <section id="drawer" role="region">
+    <header>
+      <a href="#"><span class="icon icon-menu">hide sidebar</span></a>
+      <a href="#drawer"><span class="icon icon-menu">show sidebar</span></a>
+      <h1>SomaFM</h1>
+    </header>
+    <div role="main">
+
+      <section id="channels-view">
+        <section data-type="list">
+          <header>Channels</header>
+          <ul id="channel-list">
+          </ul>
+        </section>
+
+        <div role="toolbar" id="playback">
+        </div>
+
+        <section role="status">
+          <p></p>
+        </section>
+      </section>
+
+      <section id="about-view" class="hidden">
+        <header>About</header>
+        <p>This is an unofficial SomaFM app and its author has no relation with <a href="http://www.somafm.com" target="_blank">SomaFM</a>. SomaFM is a listener-supported, commercial-free internet-only radio station. If you want to support SomaFM with a donation, visit <a href="http://somafm.com/support/" target="_blank">somafm.com/support</a>.</p>
+        <p>Author: Daniel "MaTachi" Jonsson, <a href="http://matachi.se" target="_blank">matachi.se</a></p>
+        <p>License: MIT License</p>
+        <p>Source code repository: <a href="https://github.com/MaTachi/somafm-firefox-os-app" target="_blank">github.com/MaTachi/somafm-firefox-os-app</a></p>
+      </section>
+
+    </div>
+  </section>
+
+  <script src="js/script.min.js"></script>
+</body>
+</html>

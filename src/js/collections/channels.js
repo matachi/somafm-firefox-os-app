@@ -3,31 +3,30 @@ var app = app || {};
 (function($) {
   'use strict';
 
-  app.AppView = Backbone.View.extend({
+  var Channels = Backbone.Collection.extend({
 
-    el: '#app',
+    model: app.Channel,
 
-    initialize: function() {
-      console.log('Initialize AppView');
+    localStorage: new Backbone.LocalStorage('channels-backbone'),
 
-      this.$channelList = $('#channel-list');
+    comparator: function(a, b) {
+      return a.get('title').toLowerCase() > b.get('title').toLowerCase();
+    },
 
-      this.listenTo(app.channels, 'add', this.addOne);
-      this.listenTo(app.channels, 'reset', this.addAll);
-
-      _.invoke(app.channels.toArray(), 'destroy');
-
-      $.ajaxSetup({
-        xhr: function() {
-          return new window.XMLHttpRequest({mozSystem: true});
-        }
-      });
-
+    /**
+     * Update the collection with the channels from SomaFM's API.
+     */
+    update: function() {
       $.ajax({
         url: 'http://somafm.com/channels.xml',
         dataType: 'xml',
+        // Do a cross-origin XHR
+        // http://stackoverflow.com/questions/13873025/firefox-os-packaged-apps-and-xmlhttprequests
+        xhr: function() {
+          return new window.XMLHttpRequest({mozSystem: true});
+        },
         success: function(response) {
-          console.log('Channel list received');
+          console.log('Channel list retrieved');
           var json = $.xml2json(response);
           json['#document'].channels.channel.forEach(function(element) {
             var id = element.$.id;
@@ -47,25 +46,12 @@ var app = app || {};
           console.log(jqXHR);
           console.log(textStatus);
           console.log(errorThrown);
-        }
+          this.trigger('fail');
+        }.bind(this),
       });
-
-      app.channels.fetch({reset: true});
-    },
-
-    render: function() {
-      console.log('Render AppView');
-      this.$el.append('kalle');
-    },
-
-    addOne: function(channel) {
-      var view = new app.ChannelView({model: channel});
-      this.$channelList.append(view.render().el);
-    },
-
-    addAll: function() {
-      app.channels.each(this.addOne, this);
     },
 
   });
+
+  app.channels = new Channels();
 })(jQuery);

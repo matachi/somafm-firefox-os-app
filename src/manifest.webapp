@@ -1,6 +1,7 @@
 {
-  "name": "SomaFM Radio Station",
+  "name": "SomaFM",
   "description": "SomaFM is a listener-supported, commercial-free internet-only radio station.",
+  "version": "1.0.0",
   "launch_path": "/index.html",
   "developer": {
     "name": "Daniel \"MaTachi\" Jonsson",
@@ -12,6 +13,8 @@
   },
   "type" : "privileged",
   "permissions": {
-    "systemXHR": {}
+    "systemXHR": {
+      "description": "Required to get the list of SomaFM radio channels"
+    }
   }
 }

@@ -9,7 +9,7 @@ Install npm, Grunt and Bower on a Debian based system (Ubuntu for example):
 
     $ sudo apt-get install nodejs
     $ sudo npm install -g bower grunt-cli
-    $ sudo chown `whoami`:`whoami` ~/.npm ~/tmp
+    $ sudo chown -R `whoami`:`whoami` ~/.npm ~/tmp
 
 To export the SVG icon into PNG images Inkscape is also required to be
 installed:
@@ -18,46 +18,64 @@ installed:
 
 ## Set up
 
-Install development dependencies (Grunt and Grunt modules):
+Install development dependencies (Grunt and Grunt modules) and app dependencies
+(jQuery, Backbone, Underscore and Building Blocks):
 
     $ npm install
 
-Install deployment dependencies that the app requires (jQuery, Backbone,
-Underscore and Building Blocks):
+## Build development version of the app
 
-    $ bower install
-
-## Build the project
-
-Build the whole project and produce a runnable app:
+Watch for changes in the text files (JavaScript, HTML, etc) and perform
+continuous building:
 
     $ grunt
 
+## Build production version of the app
+
+    $ grunt build
+
+This does the same as `grunt`, but with more minimization, cleaning and without
+the continuous building.
+
 ## Run the app
 
-The built app is available in the directory `dist/`. Either open
-`dist/index.html` in Firefox or install the app on Firefox OS using Firefox's
-[App Manager](https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager).
-With the App Manager it's possible to debug the app on both a real device and
-in the
-[Firefox OS Simulator](https://ftp.mozilla.org/pub/mozilla.org/labs/fxos-simulator/).
+The built app is available in the directory `dist/`. Use Firefox's [App
+Manager](https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager)
+to install the app on either a real device or in the [Firefox OS
+Simulator](https://ftp.mozilla.org/pub/mozilla.org/labs/fxos-simulator/).
+With the App Manager it's also possible to debug the app's JS, DOM and CSS.
 
-## Other available Grunt tasks
+The app isn't runnable in the regular browser due to the [same-origin
+policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+which restricts the app's JS code from making a GET request to [SomaFM's
+API](http://somafm.com/channels.xml). This could be fixed if SomaFM were to
+enable
+[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 
-Watch for changes in the text files (JavaScript, HTML, etc) and perform
-continuous compilation:
+## Credits
 
-    $ grunt watch
+The app depends on the following JavaScript libraries:
 
-Export the [SVG icon](icons/icon.svg) into PNG icons of various sizes:
+* [jQuery](http://jquery.com/) licensed under the [MIT
+  License](https://jquery.org/license/).
+* [jQuery-xml2json](https://github.com/sergeyt/jQuery-xml2json) licensed under
+  the [MIT
+  License](https://github.com/sergeyt/jQuery-xml2json/blob/master/package.json).
+* [Underscore.js](http://underscorejs.org/) licensed under the [MIT
+  License](https://github.com/jashkenas/underscore/blob/master/LICENSE).
+* [Backbone.js](http://backbonejs.org/) licensed under the [MIT
+  License](https://github.com/jashkenas/backbone/blob/master/LICENSE).
+* [Backbone.localStorage](http://documentup.com/jeromegn/backbone.localStorage)
+  licensed under the [MIT
+  License](http://documentup.com/jeromegn/backbone.localStorage#license).
 
-    $ grunt icons
+And the following library for the layout (CSS, and icons):
 
-Delete compiled files:
+* [Building Blocks](http://buildingfirefoxos.com/building-blocks) licensed
+  under the [Apache License, version
+  2.0](https://github.com/buildingfirefoxos/Building-Blocks/blob/gh-pages/LICENSE).
 
-    $ grunt clean:dist
+The following font is used for the app's icon:
 
-Only compile the JavaScript files:
-
-    $ grunt compile
-
+* [OCR-A](http://sourceforge.net/projects/ocr-a-font/) licensed as public
+  domain.
