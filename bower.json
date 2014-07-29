@@ -1,13 +1,6 @@
 {
   "name": "somafm-firefox-os-app",
-  "description": "SomaFM Firefox OS app",
   "version": "0.1.0",
-  "authors": {
-    "name": "Daniel \"MaTachi\" Jonsson",
-    "url": "http://matachi.se"
-  },
-  "homepage": "http://matachi.se",
-  "license": "MIT",
   "dependencies": {
     "jquery": "~2.1.1",
     "underscore": "~1.6.0",
