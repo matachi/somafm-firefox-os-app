@@ -25,7 +25,13 @@ var app = app || {};
       this.audioPlayer = this.$('#audio-player')[0];
       var that = this;
       this.audioPlayer.addEventListener('error', function() {
-        if (this.error.code === this.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+        console.log(that.audioPlayer.src);
+        // When the src is set to an empty string in the pause method, an error
+        // will be thrown and `that.audioPlayer.src` will say that index.html
+        // is the src.
+        if (this.error.code === this.error.MEDIA_ERR_SRC_NOT_SUPPORTED &&
+            that.audioPlayer.src !== '' &&
+            that.audioPlayer.src.substr(-5) !== '.html') {
           that.trigger(
             'src_not_supported',
             'The media source is not supported by your device.'
@@ -80,6 +86,9 @@ var app = app || {};
      */
     pause: function() {
       this.audioPlayer.pause();
+      // Need to change the src to stop the device from streaming data, which
+      // it appear to do even if the stream is paused
+      this.audioPlayer.src = '';
       this.updatePlayPauseButton();
     },
 
