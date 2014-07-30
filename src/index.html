@@ -4,7 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>SomaFM</title>
-  <link rel="stylesheet" href="css/style.min.css">
+  <link rel="stylesheet" href="css/building-blocks/lists.css">
+  <link rel="stylesheet" href="css/building-blocks/headers.css">
+  <link rel="stylesheet" href="css/building-blocks/drawer.css">
+  <link rel="stylesheet" href="css/building-blocks/toolbars.css">
+  <link rel="stylesheet" href="css/building-blocks/media_icons.css">
+  <link rel="stylesheet" href="css/building-blocks/progress_activity.css">
+  <link rel="stylesheet" href="css/building-blocks/buttons.css">
+  <link rel="stylesheet" href="css/building-blocks/status.css">
+  <link rel="stylesheet" href="css/app.css">
 </head>
 <body role="application" id="app">
 
@@ -55,6 +63,19 @@
     </div>
   </section>
 
-  <script src="js/script.min.js"></script>
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/xml2json.js"></script>
+  <script src="lib/underscore.min.js"></script>
+  <script src="lib/backbone.min.js"></script>
+  <script src="lib/backbone.localStorage.min.js"></script>
+
+  <script src="js/templates/templates.js"></script>
+  <script src="js/models/channel.js"></script>
+  <script src="js/models/playback.js"></script>
+  <script src="js/collections/channels.js"></script>
+  <script src="js/views/channel-view.js"></script>
+  <script src="js/views/playback-view.js"></script>
+  <script src="js/views/app-view.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
