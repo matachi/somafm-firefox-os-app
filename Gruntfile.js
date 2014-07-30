@@ -13,11 +13,7 @@ module.exports = function(grunt) {
 
     clean: {
       prod: [
-        'dist/js/script.js',
-        'dist/js/templates.js',
-        'dist/css/*.css',
-        '!dist/css/*.min.css',
-        'dist/css/lists.less',
+        'dist/css/building-blocks/lists.less',
       ],
     },
 
@@ -39,36 +35,8 @@ module.exports = function(grunt) {
           },
         },
         files: {
-          'dist/js/templates.js': ['src/js/templates/*.html'],
+          'dist/js/templates/templates.js': ['src/js/templates/*.html'],
         },
-      },
-    },
-
-    concat: {
-      all: {
-        src: [
-          'bower_components/jquery/dist/jquery.js',
-          'bower_components/jquery-xml2json/src/xml2json.js',
-          'bower_components/underscore/underscore.js',
-          'bower_components/backbone/backbone.js',
-          'bower_components/backbone.localstorage/backbone.localStorage.js',
-          'dist/js/templates.js',
-          'src/js/models/channel.js',
-          'src/js/models/playback.js',
-          'src/js/collections/channels.js',
-          'src/js/views/channel-view.js',
-          'src/js/views/playback-view.js',
-          'src/js/views/app-view.js',
-          'src/js/app.js',
-        ],
-        dest: 'dist/js/script.min.js',
-      },
-    },
-
-    uglify: {
-      prod: {
-        src: '<%= concat.all.dest %>',
-        dest: '<%= concat.all.dest %>',
       },
     },
 
@@ -80,22 +48,12 @@ module.exports = function(grunt) {
       },
     },
 
-    cssmin: {
-      all: {
-        files: {
-          'dist/css/style.min.css': [
-            'dist/css/lists.css',
-            'dist/css/headers.css',
-            'dist/css/drawer.css',
-            'dist/css/toolbars.css',
-            'dist/css/media_icons.css',
-            'dist/css/progress_activity.css',
-            'dist/css/buttons.css',
-            'dist/css/status.css',
-            'dist/css/app.css',
-          ],
-        },
-      },
+    curl: {
+      'dist/lib/jquery.min.js': 'http://code.jquery.com/jquery-2.1.1.min.js',
+      'dist/lib/xml2json.js': 'https://raw.githubusercontent.com/sergeyt/jQuery-xml2json/master/src/xml2json.js',
+      'dist/lib/underscore.min.js': 'http://underscorejs.org/underscore-min.js',
+      'dist/lib/backbone.min.js': 'http://backbonejs.org/backbone-min.js',
+      'dist/lib/backbone.localStorage.min.js': 'https://raw.githubusercontent.com/jeromegn/Backbone.localStorage/master/backbone.localStorage-min.js',
     },
 
     copy: {
@@ -111,7 +69,14 @@ module.exports = function(grunt) {
         dest: 'dist/',
         flatten: true,
       },
+      js: {
+        expand: true,
+        cwd: 'src/js/',
+        src: '{,*/}*.js',
+        dest: 'dist/js/',
+      },
       buildingBlocks: {
+        expand: true,
         cwd: 'bower_components/building-blocks/',
         src: [
           '*/lists.css',
@@ -130,7 +95,7 @@ module.exports = function(grunt) {
           '*/status.css',
           '*/status/images/ui/pattern.png',
         ],
-        dest: 'dist/css/',
+        dest: 'dist/css/building-blocks/',
         rename: function(dest, src) {
           // Remove `style/, `style_unstable/` or `icons/styles/` from the
           // beginning of the src path
@@ -138,15 +103,14 @@ module.exports = function(grunt) {
           var srcWithoutStyles = src.substr(src.indexOf('/', stylesStarts) + 1);
           return dest + srcWithoutStyles;
         },
-        expand: true,
       },
       // Needs to make a copy of lists.css named lists.less so it can be
       // referenced by app.less to extend the lists header to also use its
       // style for the About header 
       // http://lesscss.org/features/#import-options-reference-example
       buildingBlocksLess: {
-        src: 'dist/css/lists.css',
-        dest: 'dist/css/lists.less',
+        src: 'dist/css/building-blocks/lists.css',
+        dest: 'dist/css/building-blocks/lists.less',
       },
     },
 
@@ -199,14 +163,13 @@ module.exports = function(grunt) {
         tasks: [
           'jshint',
           'jst',
-          'concat',
+          'copy:js',
         ],
       },
       less: {
         files: 'src/less/app.less',
         tasks: [
           'less',
-          'cssmin',
         ],
       },
       manifest: {
@@ -236,14 +199,14 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'jshint',
     'jst',
-    'concat',
+    'copy:js',
+    'curl',
 
     'copy:html',
 
     'copy:buildingBlocks',
     'copy:buildingBlocksLess',
     'less',
-    'cssmin',
 
     'icons',
 
@@ -253,15 +216,14 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'jshint',
     'jst',
-    'concat',
-    'uglify',
+    'copy:js',
+    'curl',
 
     'copy:html',
 
     'copy:buildingBlocks',
     'copy:buildingBlocksLess',
     'less',
-    'cssmin',
 
     'icons',
 

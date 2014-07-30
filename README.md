@@ -5,7 +5,7 @@ License: [MIT License](LICENSE.md)
 
 ## Prerequisites
 
-Install npm, Grunt and Bower on a Debian based system (Ubuntu for example):
+Install npm and Grunt on a Debian based system (Ubuntu for example):
 
     $ sudo apt-get install nodejs
     $ sudo npm install -g bower grunt-cli
